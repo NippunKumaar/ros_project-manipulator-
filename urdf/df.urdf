@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<robot name="cougarbot">
+    <link name="world"/>
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.088" radius="0.06"/>
+            </geometry>
+            <material name="silver">
+                <color rgba="0.75 0.75 0.75 1"/>
+            </material>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.088" radius="0.06"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.25"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <inertia ixx="0.00154533" iyy="0.00154533" izz="0.0003" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+    
+    <transmission name="trans_fixed">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="fixed">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_fixed">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    
+    
+    
+    <link name="torso">
+        <visual>
+            <geometry>
+                <box size="0.048 0.026 0.043"/>
+            </geometry>
+            <material name="silver">
+                <color rgba="0.75 0.75 0.75 1"/>
+            </material>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.048 0.026 0.043"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.25"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <inertia ixx="0.000346594" iyy="0.00021033" izz="0.00024823" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    
+    <joint name="hip" type="continuous">
+        <axis xyz="0 0 1"/>
+        <parent link="base_link"/>
+        <child link="torso"/>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.0645"/>
+    </joint>
+   
+    <transmission name="trans_hip">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="hip">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_hip">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    
+    
+    
+    <link name="upper_arm">
+        <visual>
+            <geometry>
+                <box size="0.048 0.026 0.17 "/>
+            </geometry>
+            <material name="silver">
+                <color rgba="0.75 0.75 0.75 1"/>
+            </material>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.048 0.026 0.17 "/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.25"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <inertia ixx="0.000216" iyy="0.00080384" izz="0.00024823" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    
+    <joint name="shoulder" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="torso"/>
+        <child link="upper_arm"/>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.10660"/>
+    </joint>
+    
+    <transmission name="trans_shoulder">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="shoulder">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_shoulder">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    
+    
+    
+    <link name="lower_arm">
+        <visual>
+            <geometry>
+                <box size="0.048 0.026 0.073 "/>
+            </geometry>
+            <material name="silver">
+                <color rgba="0.75 0.75 0.75 1"/>
+            </material>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.048 0.026 0.073 "/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.25"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <inertia ixx="0.00063583" iyy="0.00050022" izz="0.00024823" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    
+    <joint name="elbow" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="upper_arm"/>
+        <child link="lower_arm"/>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.1215"/>
+    </joint>
+    
+    <transmission name="trans_elbow">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="elbow">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_elbow">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    
+    
+    
+    <link name="hand">
+        <visual>
+            <geometry>
+                <box size="0.048 0.026 0.072 "/>
+            </geometry>
+            <material name="silver">
+                <color rgba="0.75 0.75 0.75 1"/>
+            </material>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.048 0.026 0.072 "/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.25"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <inertia ixx="0.00062375" iyy="0.00048814" izz="0.00024823" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    
+    <joint name="wrist" type="continuous">
+        <axis xyz="0 1 0"/>
+        <parent link="lower_arm"/>
+        <child link="hand"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0725"/>
+    </joint>
+    
+    <transmission name="trans_wrist">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wrist">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_wrist">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    
+    
+    
+    <link name="endeff">
+        <visual>
+            <geometry>
+                <box size="0.05 0.026 0.04 "/>
+            </geometry>
+            <material name="silver">
+                <color rgba="0.75 0.75 0.75 1"/>
+            </material>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.05 0.026 0.04 "/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.25"/>
+        </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <inertia ixx="0.00034153" iyy="0.00018959" izz="0.00026456" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+    </link>
+    
+    <joint name="fingers" type="continuous">
+        <axis xyz="0 0 1"/>
+        <parent link="hand"/>
+        <child link="endeff"/>
+        <origin rpy="0 0 0" xyz="0 0 0.056"/>
+    </joint>
+    
+    <transmission name="trans_fingers">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="fingers">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_fingers">
+        <mechanicalReduction>1</mechanicalReduction>
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </actuator>
+    </transmission>
+    
+    
+    
+    <gazebo>
+        <plugin name="control" filename="libgazebo_ros_control.so"/>
+    </gazebo>
+    <gazebo>
+        <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+        <jointName>hip, shoulder, elbow, wrist, fingers</jointName>
+        </plugin>
+    </gazebo>
+</robot>
